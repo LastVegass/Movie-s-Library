@@ -37,4 +37,21 @@ def rating_to_stars(rating)
   '*' * ((rating - 8.0) * 10.0).round
 end
 
-puts movie_with_usa_date(parse_txt_file(ARGV.first))
+def movie_size(movies)
+  size = movies.map { |m| m[:name].length  }
+  rightsize = size.sort.reverse
+  movies.select { |m| m[:name].length > rightsize[5]}
+end
+
+def movie_comedy(movies)
+  comedy = movies.select { |m| m[:geners].include? ('Comedy') }
+  comedyrealise = comedy.map { |m| m[:realise].to_i }
+  rightdate = comedyrealise.sort
+  movies.select { |m| m[:realise].to_i < rightdate[10] && m[:geners].include?('Comedy') }
+end
+
+def movie_directors_list(movies)
+  movies.map(&:sort).flatten {|m| m[:director]}
+end
+
+puts movie_size(parse_txt_file(ARGV.first))
