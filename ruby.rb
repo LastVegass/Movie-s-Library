@@ -1,12 +1,12 @@
 def parse_txt_file(filename)
-mass = filename.nil? ? 'movies.txt' : filename
+  mass = filename.nil? ? 'movies.txt' : filename
   if mass == 'movies.txt'
-      File.read(mass)
+    File.read(mass)
         .split("\n")
         .map { |a| a.split('|') }
         .map { |m| create_movie(m) }
-  	 else
-      	puts 'incorrect'
+  else
+    puts 'incorrect'
     end
 end
 
@@ -38,20 +38,22 @@ def rating_to_stars(rating)
 end
 
 def movie_size(movies)
-  size = movies.map { |m| m[:name].length  }
+  size = movies.map { |m| m[:name].length }
   rightsize = size.sort.reverse
-  movies.select { |m| m[:name].length > rightsize[5]}
+  movies.select { |m| m[:name].length > rightsize[5] }
 end
 
 def movie_comedy(movies)
-  comedy = movies.select { |m| m[:geners].include? ('Comedy') }
+  comedy = movies.select { |m| m[:geners].include? 'Comedy' }
   comedyrealise = comedy.map { |m| m[:realise].to_i }
   rightdate = comedyrealise.sort
   movies.select { |m| m[:realise].to_i < rightdate[10] && m[:geners].include?('Comedy') }
 end
 
 def movie_directors_list(movies)
-  movies.map(&:sort).flatten {|m| m[:director]}
+  directorlist = movies.map { |m| m[:director] }
+  directorlist.sort.uniq.map { |m| m.partition(' ') }
+
 end
 
-puts movie_size(parse_txt_file(ARGV.first))
+puts movie_directors_list(parse_txt_file(ARGV.first))
