@@ -7,7 +7,7 @@ def parse_txt_file(filename)
         .map { |m| create_movie(m) }
   else
     puts 'incorrect'
-    end
+  end
 end
 
 def create_movie(movies)
@@ -26,7 +26,7 @@ def create_movie(movies)
 end
 
 def movie_with_max_in_name(movies)
-  movies.select { |m| m[:name].include? 'Max' }
+  movies.select { |m| m[:name].include?('Max') }
 end
 
 def movie_with_usa_date(movies)
@@ -38,22 +38,32 @@ def rating_to_stars(rating)
 end
 
 def movie_size(movies)
-  size = movies.map { |m| m[:name].length }
-  rightsize = size.sort.reverse
-  movies.select { |m| m[:name].length > rightsize[5] }
+  movies.map { |m| m[:name].length }
+        .sort.reverse
+        .select { |m| m[:name].length > rightsize[5] }
 end
 
 def movie_comedy(movies)
-  comedy = movies.select { |m| m[:geners].include? 'Comedy' }
-  comedyrealise = comedy.map { |m| m[:realise].to_i }
-  rightdate = comedyrealise.sort
-  movies.select { |m| m[:realise].to_i < rightdate[10] && m[:geners].include?('Comedy') }
+  movies.select { |m| m[:geners].include?('Comedy') }
+        .map { |m| m[:realise].to_i }
+        .sort
+        .select { |m| m[:realise].to_i < rightdate[10] && m[:geners].include?('Comedy') }
 end
 
 def movie_directors_list(movies)
-  directorlist = movies.map { |m| m[:director] }
-  directorlist.sort.uniq.map { |m| m.partition(' ') }
-
+  movies.map { |m| m[:director] }
+        .sort
+        .uniq
+        .map { |m| m.split(' ') }
+        .map { |m| m[-1] }
 end
 
-puts movie_directors_list(parse_txt_file(ARGV.first))
+def movies_not_usa(movies)
+  movies.select do |m|
+  unless m[:country].include?('USA')
+    puts m[:name], m[:realise], m[:geners], m[:runtime], m[:stars].chomp!
+  end
+  end
+end
+
+puts movies_not_usa(parse_txt_file(ARGV.first))
