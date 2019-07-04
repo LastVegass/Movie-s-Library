@@ -55,7 +55,7 @@ def movie_directors_list(movies)
         .sort
         .uniq
         .map { |m| m.split(' ') }
-        .map { |m| m[-1] }
+        .map(&:last)
 end
 
 def movies_not_usa(movies)
