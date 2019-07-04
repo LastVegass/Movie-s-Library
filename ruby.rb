@@ -60,9 +60,9 @@ end
 
 def movies_not_usa(movies)
   movies.select do |m|
-  unless m[:country].include?('USA')
-    puts m[:name], m[:realise], m[:geners], m[:runtime], m[:stars].chomp!
-  end
+    unless m[:country].include?('USA')
+      puts m[:name], m[:realise], m[:geners], m[:runtime], m[:stars].chomp!
+    end
   end
 end
 
