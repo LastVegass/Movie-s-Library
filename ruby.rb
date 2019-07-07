@@ -38,15 +38,16 @@ def rating_to_stars(rating)
 end
 
 def movie_size(movies)
-  size = movies.map { |m| m[:name].length }
-  rightsize = size.sort.reverse
+  rightsize = movies.map { |m| m[:name].length }
+                    .sort
+                    .reverse
   movies.select { |m| m[:name].length > rightsize[5] }
 end
 
 def movies_comedy(movies)
-  comedylist = movies.select { |m| m[:geners].include?('Comedy') }
-  date = comedylist.map { |m| m[:realise] }
-  rightdate = date.sort
+  rightdate = movies.select { |m| m[:geners].include?('Comedy') }
+                    .map { |m| m[:realise] }
+                    .sort
   movies.select { |m| m[:realise] < rightdate[10] && m[:geners].include?('Comedy') }
 end
 
