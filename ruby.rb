@@ -38,29 +38,29 @@ def rating_to_stars(rating)
 end
 
 def movie_size(movies)
-  rightsize = movies.map { |m| m[:name].length }
-                    .sort
-                    .reverse
-  movies.select { |m| m[:name].length > rightsize[5] }
+  movies.map { |m| m[:name] }
+        .sort_by(&:length).reverse
+        .take(5)
 end
 
 def movies_comedy(movies)
-  rightdate = movies.select { |m| m[:geners].include?('Comedy') }
-                    .map { |m| m[:realise] }
-                    .sort
-  movies.select { |m| m[:realise] < rightdate[10] && m[:geners].include?('Comedy') }
+  movies.select { |m| m[:geners].include?('Comedy') }
+        .sort_by { |m| m[:realise] }
+        .take(10)
 end
 
 def movie_directors_list(movies)
-  movies.map { |m| m[:director] }.map { |m| m.split(' ') }.map(&:last)
+  movies.map { |m| m[:director].split(' ').last }
         .sort
         .uniq
 end
 
 def movies_not_usa(movies)
-  movies.select do |m|
-    unless m[:country].include?('USA')
-  end
+  movies.reject { |m| m[:country].include?('USA') }
 end
 
-puts movie_size(parse_txt_file(ARGV.first))
+def pretty_print(m)
+  "Title:#{m[:name]}, (#{m[:realise]},#{m[:geners]} - #{m[:runtime]} "
+end
+
+puts movies_not_usa(parse_txt_file(ARGV.first)).map { |m| pretty_print(m)  }
