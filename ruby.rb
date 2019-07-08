@@ -52,9 +52,7 @@ def movies_comedy(movies)
 end
 
 def movie_directors_list(movies)
-  movies.map { |m| m[:director] }
-        .map { |m| m.split(' ') }
-        .map(&:last)
+  movies.map { |m| m[:director] }.map { |m| m.split(' ') }.map(&:last)
         .sort
         .uniq
 end
@@ -62,8 +60,6 @@ end
 def movies_not_usa(movies)
   movies.select do |m|
     unless m[:country].include?('USA')
-      puts "#{m[:name]} (#{m[:realise]} ; #{m[:geners]}) - #{m[:runtime]} "
-    end
   end
 end
 
