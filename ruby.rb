@@ -6,7 +6,8 @@ def parse_txt_file(filename)
         .map { |a| a.split('|') }
         .map { |m| create_movie(m) }
   else
-    puts 'incorrect'
+    puts 'Incorrect file name'
+    []
   end
 end
 
@@ -63,4 +64,4 @@ def pretty_print(m)
   "Title:#{m[:name]}, (#{m[:realise]},#{m[:geners]} - #{m[:runtime]} "
 end
 
-puts movies_not_usa(parse_txt_file(ARGV.first)).map { |m| pretty_print(m)  }
+puts movies_not_usa(parse_txt_file(ARGV.first)).map { |m| pretty_print(m) }
