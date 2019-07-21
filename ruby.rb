@@ -2,9 +2,9 @@ require 'csv'
 require 'ostruct'
 
 def parse_txt_file(filename)
-  mass = filename.nil? ? 'movies.txt' : filename
-  if mass == 'movies.txt'
-    CSV.read(mass, col_sep: '|')
+  name = filename.nil? ? 'movies.txt' : filename
+  if name == 'movies.txt'
+    CSV.read(name, col_sep: '|')
        .map { |m| create_movie(m) }
   else
     puts 'incorrect'
@@ -12,16 +12,17 @@ def parse_txt_file(filename)
 end
 
 def create_movie(movies)
-  OpenStruct.new(:link => movies[0],
-    :name => movies[1],
-    :year => movies[2],
-    :country => movies[3],
-    :realise => movies[4],
-    :geners => movies[5],
-    :runtime => movies[6],
-    :rate => rating_to_stars(movies[7].to_f),
-    :director => movies[8],
-    :stars => movies[9]
+  OpenStruct.new(
+    link: movies[0],
+    name: movies[1],
+    year: movies[2],
+    country: movies[3],
+    realise: movies[4],
+    geners: movies[5],
+    runtime: movies[6],
+    rate: rating_to_stars(movies[7].to_f),
+    director: movies[8],
+    stars: movies[9]
   )
 end
 
@@ -63,4 +64,4 @@ def pretty_print(m)
   "Title:#{m[:name]}, (#{m[:realise]},#{m[:geners]} - #{m[:runtime]} "
 end
 
-puts parse_txt_file(ARGV.first)
+puts movie_directors_list(parse_txt_file(ARGV.first))
