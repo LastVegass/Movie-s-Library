@@ -74,6 +74,8 @@ def correct_date(date_string)
     Date.parse(date_string + first_day + first_day)
   when 10
     Date.parse(date_string)
+  else
+    nil
   end
 end
 
@@ -118,4 +120,4 @@ stat_year = year_list(parse_txt_file(ARGV.first))
 
 parse_txt_file(ARGV.first).map { |m| stat_year[m.year] << m }
 
- puts stat_year['2010']
+puts stat_year['2010']
