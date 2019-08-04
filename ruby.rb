@@ -8,7 +8,7 @@ def parse_txt_file(filename)
     CSV.read(name, col_sep: '|')
        .map { |m| create_movie(m) }
   else
-    puts []
+    []
   end
 end
 
@@ -18,8 +18,8 @@ def create_movie(movies)
     name: movies[1],
     year: movies[2],
     country: movies[3],
-    release: correct_date(movies[4]),
-    geners: movies[5],
+    release: correct_date(movies[4].split('-')),
+    genre: movies[5],
     runtime: movies[6],
     rate: rating_to_stars(movies[7].to_f),
     director: movies[8],
@@ -46,7 +46,7 @@ def movie_size(movies)
 end
 
 def movie_comedy(movies)
-  movies.select { |m| m[:geners].include?('Comedy') }
+  movies.select { |m| m[:genre].include?('Comedy') }
         .sort_by { |m| m[:release] }
         .take(10)
 end
@@ -62,20 +62,18 @@ def movies_not_usa(movies)
 end
 
 def pretty_print(m)
-  "Title:#{m[:name]}, (#{m[:release]},#{m[:geners]} - #{m[:runtime]} "
+  "Title:#{m[:name]}, (#{m[:release]},#{m[:genre]} - #{m[:runtime]} "
 end
 
-def correct_date(date_string)
+def correct_date(date)
   first_day = ('-01')
-  case date_string.length
-  when 7
-    Date.parse(date_string + first_day)
-  when 4
-    Date.parse(date_string + first_day + first_day)
-  when 10
-    Date.parse(date_string)
-  else
-    nil
+  case date.length
+  when 1
+    Date.parse(date.join('-') + first_day + first_day)
+  when 2
+    Date.parse(date.join('-') + first_day)
+  when 3
+    Date.parse(date.join('-'))
   end
 end
 
@@ -118,6 +116,6 @@ end
 
 stat_year = year_list(parse_txt_file(ARGV.first))
 
-parse_txt_file(ARGV.first).map { |m| stat_year[m.year] << m }
+parse_txt_file(ARGV.first).map { |m| stats[MONS[m.release.mon]] << m }
 
-puts stat_year['2010']
+puts stats['June']
