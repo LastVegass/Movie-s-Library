@@ -18,7 +18,7 @@ def create_movie(movies)
     name: movies[1],
     year: movies[2],
     country: movies[3],
-    release: correct_date(movies[4].split('-')),
+    release: correct_date(movies[4]),
     genre: movies[5],
     runtime: movies[6],
     rate: rating_to_stars(movies[7].to_f),
@@ -66,14 +66,15 @@ def pretty_print(m)
 end
 
 def correct_date(date)
-  first_day = ('-01')
-  case date.length
+  split_date = date.split('-')
+  first_day_or_month = ('-01')
+  case split_date.length
   when 1
-    Date.parse(date.join('-') + first_day + first_day)
+    Date.parse(split_date.join('-') + first_day_or_month + first_day_or_month)
   when 2
-    Date.parse(date.join('-') + first_day)
+    Date.parse(split_date.join('-') + first_day_or_month)
   when 3
-    Date.parse(date.join('-'))
+    Date.parse(split_date.join('-'))
   end
 end
 
@@ -116,6 +117,6 @@ end
 
 stat_year = year_list(parse_txt_file(ARGV.first))
 
-parse_txt_file(ARGV.first).map { |m| stats[MONS[m.release.mon]] << m }
+parse_txt_file(ARGV.first).map { |m| stats[MONS[m.release.mon]] << m}
 
-puts stats['June']
+puts stats['May']
