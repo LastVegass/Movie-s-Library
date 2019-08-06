@@ -66,15 +66,13 @@ def pretty_print(m)
 end
 
 def correct_date(date)
-  split_date = date.split('-')
-  first_day_or_month = ('-01')
-  case split_date.length
+  case date.split('-').length
   when 1
-    Date.parse(split_date.join('-') + first_day_or_month + first_day_or_month)
+    Date.parse(date.split('-').join('-') + '-01' + '-01')
   when 2
-    Date.parse(split_date.join('-') + first_day_or_month)
+    Date.parse(date.split('-').join('-') + '-01')
   when 3
-    Date.parse(split_date.join('-'))
+    Date.parse(date)
   end
 end
 
