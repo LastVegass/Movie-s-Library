@@ -68,9 +68,9 @@ end
 def correct_date(date)
   case date.split('-').length
   when 1
-    Date.parse(date.split('-').join('-') + '-01' + '-01')
+    Date.parse(date + '-01-01')
   when 2
-    Date.parse(date.split('-').join('-') + '-01')
+    Date.parse(date + '-01')
   when 3
     Date.parse(date)
   end
