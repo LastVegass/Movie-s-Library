@@ -1,28 +1,30 @@
+require 'csv'
+require 'ostruct'
+require 'date'
+
 def parse_txt_file(filename)
-  mass = filename.nil? ? 'movies.txt' : filename
-  if mass == 'movies.txt'
-    File.read(mass)
-        .split("\n")
-        .map { |a| a.split('|') }
-        .map { |m| create_movie(m) }
+  name = filename.nil? ? 'movies.txt' : filename
+  if name == 'movies.txt'
+    CSV.read(name, col_sep: '|')
+       .map { |m| create_movie(m) }
   else
-    puts 'incorrect'
+    []
   end
 end
 
 def create_movie(movies)
-  {
+  OpenStruct.new(
     link: movies[0],
     name: movies[1],
     year: movies[2],
     country: movies[3],
-    realise: movies[4],
-    geners: movies[5],
+    release: correct_date(movies[4]),
+    genre: movies[5],
     runtime: movies[6],
     rate: rating_to_stars(movies[7].to_f),
     director: movies[8],
-    stars: movies[9]
-  }
+    actors: movies[9]
+  )
 end
 
 def movie_with_max_in_name(movies)
@@ -38,32 +40,81 @@ def rating_to_stars(rating)
 end
 
 def movie_size(movies)
-  movies.map { |m| m[:name].length }
-        .sort.reverse
-        .select { |m| m[:name].length > rightsize[5] }
+  movies.map { |m| m[:name] }
+        .sort_by(&:length).reverse
+        .take(5)
 end
 
 def movie_comedy(movies)
-  movies.select { |m| m[:geners].include?('Comedy') }
-        .map { |m| m[:realise].to_i }
-        .sort
-        .select { |m| m[:realise].to_i < rightdate[10] && m[:geners].include?('Comedy') }
+  movies.select { |m| m[:genre].include?('Comedy') }
+        .sort_by { |m| m[:release] }
+        .take(10)
 end
 
 def movie_directors_list(movies)
-  movies.map { |m| m[:director] }
+  movies.map { |m| m[:director].split(' ').last }
         .sort
         .uniq
-        .map { |m| m.split(' ') }
-        .map { |m| m[-1] }
 end
 
 def movies_not_usa(movies)
-  movies.select do |m|
-    unless m[:country].include?('USA')
-      puts m[:name], m[:realise], m[:geners], m[:runtime], m[:stars].chomp!
-    end
+  movies.reject { |m| m[:country].include?('USA') }
+end
+
+def pretty_print(m)
+  "Title:#{m[:name]}, (#{m[:release]},#{m[:genre]} - #{m[:runtime]} "
+end
+
+def correct_date(date)
+  case date.split('-').length
+  when 1
+    Date.parse(date + '-01-01')
+  when 2
+    Date.parse(date + '-01')
+  when 3
+    Date.parse(date)
   end
 end
 
-puts movies_not_usa(parse_txt_file(ARGV.first))
+MONS = {
+  1 => 'January',
+  2 => 'February',
+  3 => 'March',
+  4 => 'April',
+  5 => 'May',
+  6 => 'June',
+  7 => 'July',
+  8 => 'August',
+  9 => 'September',
+  10 => 'October',
+  11 => 'November',
+  12 => 'December'
+}.freeze
+
+stats = {
+  'January' => [],
+  'February' => [],
+  'March' => [],
+  'April' => [],
+  'May' => [],
+  'June' => [],
+  'July' => [],
+  'August' => [],
+  'September' => [],
+  'October' => [],
+  'November' => [],
+  'December' => []
+}
+
+def year_list(years)
+  list = years.map { |m| m[:year] }
+              .sort
+              .uniq
+  Hash[list.collect { |item| [item, []] }]
+end
+
+stat_year = year_list(parse_txt_file(ARGV.first))
+
+parse_txt_file(ARGV.first).map { |m| stats[MONS[m.release.mon]] << m}
+
+puts stats['May']
