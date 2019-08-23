@@ -129,4 +129,4 @@ z = parse_txt_file(ARGV.first)
 
 z.send(:movies_not_usa, z)
 
-puts x.sort_by(:year).sort
+puts x.sort_by(:year)

@@ -41,20 +41,20 @@ class Movie
     m = @genre
   end
 
-  def runtime
-    @runtime
+  def runtime(m)
+    m = @runtime
   end
 
-  def rate
-    @rate
+  def rate(m)
+    m = @rate
   end
 
-  def director
-    @director
+  def director(m)
+    m = @director
   end
 
-  def actors
-    @actors
+  def actors(m)
+    m = @actors
   end
 
   def set(field, value)

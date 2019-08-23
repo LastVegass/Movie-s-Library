@@ -8,11 +8,11 @@ class Movie_colletion
   end
 
   def sort_by(i)
-    @collection.set(@collection.map { |m| m.set(i,m) }, @collection.map { |m| m } )
+    @collection.send((@collection.map { |m| m.set(i,m) }), (@collection.map { |m| m }) )
   end
 
   def set(field, value)
-    send("#{field}=",value)
+    send("#{field}", value)
   end
 
 end
