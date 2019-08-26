@@ -125,8 +125,4 @@ x = Movie_colletion.new(parse_txt_file(ARGV.first).map { |m| Movie.new(m[:link],
                                                                        m[:rate],
                                                                        m[:director],
                                                                        m[:actors])})
-z = parse_txt_file(ARGV.first)
-
-z.send(:movies_not_usa, z)
-
-puts x.sort_by(:year)
+puts x.all.map { |e| e.rate }

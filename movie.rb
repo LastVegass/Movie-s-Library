@@ -1,4 +1,5 @@
 class Movie
+  attr_reader :link, :name, :year, :country, :release, :genre, :runtime, :rate, :director, :actors
   def initialize(link, name, year, country, release, genre, runtime, rate, director, actors)
     @link = link
     @name = name
@@ -15,46 +16,6 @@ class Movie
   def to_s
     "Link: #{@link} // #{@name} - #{@year} - #{@country} -(#{@release}) -
     #{@genre} - (#{@runtime}) - #{@rate} - #{@director} - #{@actors}"
-  end
-
-  def link(m)
-    m = @link
-  end
-
-  def name(m)
-    m = @name
-  end
-
-  def year(m)
-    m = @year
-  end
-
-  def country(m)
-    m = @country
-  end
-
-  def release(m)
-    m = @release
-  end
-
-  def genre(m)
-    m = @genre
-  end
-
-  def runtime(m)
-    m = @runtime
-  end
-
-  def rate(m)
-    m = @rate
-  end
-
-  def director(m)
-    m = @director
-  end
-
-  def actors(m)
-    m = @actors
   end
 
   def set(field, value)
