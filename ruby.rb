@@ -115,14 +115,6 @@ def year_list(years)
   Hash[list.collect { |item| [item, []] }]
 end
 
-x = Movie_colletion.new(parse_txt_file(ARGV.first).map { |m| Movie.new(m[:link],
-                                                                       m[:name],
-                                                                       m[:year],
-                                                                       m[:country],
-                                                                       m[:release],
-                                                                       m[:genre],
-                                                                       m[:runtime],
-                                                                       m[:rate],
-                                                                       m[:director],
-                                                                       m[:actors])})
-puts x.all.map { |e| e.rate }
+x = Movie_colletion.new('movies.txt')
+
+puts x.filter(year: '2001')
