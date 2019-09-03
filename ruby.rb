@@ -109,6 +109,12 @@ stats = {
 }
 
 def year_list(years)
+  years.map { |m| m[:genre] }
+       .sort
+       .uniq
+end
+
+def year_list(years)
   list = years.map { |m| m[:year] }
               .sort
               .uniq
@@ -117,4 +123,4 @@ end
 
 x = Movie_colletion.new('movies.txt')
 
-puts x.filter(year: '2001')
+puts x.stats(:genre)

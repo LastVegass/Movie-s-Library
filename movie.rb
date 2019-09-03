@@ -21,5 +21,4 @@ class Movie
   def matches?(key, value)
     Array(send(key)).any? { |v| value == v }
   end
-
 end

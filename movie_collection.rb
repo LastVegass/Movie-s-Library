@@ -25,4 +25,13 @@ class Movie_colletion
   def filter(filters)
     filters.reduce(@collection) { |filtered, (key, value)| filtered.select { |m| m.send(key).include?(value)}  }
   end
+
+  def stats(film)
+    list = @collection.map { |m| m.send(film) }
+                      .sort
+                      .uniq
+    list_hash = Hash[list.collect { |item| [item, []] }]
+    @collection.map { |e| list_hash[e.send(film)] << e }
+    puts list_hash
+  end
 end
