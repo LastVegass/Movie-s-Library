@@ -123,4 +123,4 @@ end
 
 x = Movie_colletion.new('movies.txt')
 
-puts x.stats(:genre)
+puts x.stats(actors: "Brad Pitt")
