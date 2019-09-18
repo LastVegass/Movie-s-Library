@@ -27,15 +27,15 @@ class Movie_colletion
   end
 
   def stats(film)
-    list_right_films = film.reduce(@collection) { |filtered, (key, value)| filtered.select { |m| m.send(key).include?(value) } }
+    #list_right_films = film.reduce(@collection) { |filtered, (key, value)| filtered.select { |m| m.send(key).include?(value) } }
     list_main = film.keys.map { |e| @collection.map { |z| z.send(e) } }
-                      .join(',')
-                      .split(',')
-                      .sort
-                      .uniq
+                    .join(',')
+                    .split(',')
+                    .sort
+                    .uniq
     list_hash = Hash[list_main.collect { |item| [item, []] }]
     list_hash.keys.map { |key| if film.values.include?(key)
-                                 list_hash[key] << list_right_films
+                                 list_hash[key] << film.reduce(@collection) { |filtered, (key, value)| filtered.select { |m| m.send(key).include?(value) } }
                                end
     }
     list_hash

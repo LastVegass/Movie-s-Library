@@ -109,12 +109,6 @@ stats = {
 }
 
 def year_list(years)
-  years.map { |m| m[:genre] }
-       .sort
-       .uniq
-end
-
-def year_list(years)
   list = years.map { |m| m[:year] }
               .sort
               .uniq
@@ -123,4 +117,4 @@ end
 
 x = Movie_colletion.new('movies.txt')
 
-puts x.stats(genre: "Comedy", actors: "Brad Pitt")
+puts x.stats(genre: 'Drama', actors: 'Tom Hanks', year: '1998' )
