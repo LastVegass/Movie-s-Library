@@ -1,6 +1,8 @@
 require 'csv'
 require 'ostruct'
 require 'date'
+require_relative 'movie'
+require_relative 'movie_collection'
 
 def parse_txt_file(filename)
   name = filename.nil? ? 'movies.txt' : filename
@@ -62,7 +64,7 @@ def movies_not_usa(movies)
 end
 
 def pretty_print(m)
-  "Title:#{m[:name]}, (#{m[:release]},#{m[:genre]} - #{m[:runtime]} "
+  "Title:#{m[:name]}, (#{m[:release]},#{m[:genre]}) - #{m[:runtime]} "
 end
 
 def correct_date(date)
@@ -113,8 +115,6 @@ def year_list(years)
   Hash[list.collect { |item| [item, []] }]
 end
 
-stat_year = year_list(parse_txt_file(ARGV.first))
+x = Movie_colletion.new('movies.txt')
 
-parse_txt_file(ARGV.first).map { |m| stats[MONS[m.release.mon]] << m}
-
-puts stats['May']
+puts x.stats(genre: 'Drama', actors: 'Tom Hanks', year: '1998' )
