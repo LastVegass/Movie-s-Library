@@ -27,24 +27,17 @@ class Movie_colletion
   end
 
   def stats(stats_arguments)
-    right_films = stats_arguments.reduce(@collection) { |filtered, (key, value)| filtered.select { |m| m.send(key).include?(value) } }
-    argument_stats_collection = stats_arguments.keys.map { |stats_key| @collection.map { |movie| movie.send(stats_key)  } }
-                                                                                  .join(',')
-                                                                                  .split(',')
-                                                                                  .sort
-                                                                                  .uniq
+    argument_stats_collection = stats_arguments.keys
+                                               .map { |stats_key| @collection.map { |movie| movie.send(stats_key)  } }
+                                               .flatten
+                                               .sort
+                                               .uniq
     arguments_hash_list = Hash[argument_stats_collection.collect { |item| [item, []] }]
     arguments_hash_list.keys.map do |key|
       if stats_arguments.values.include?(key)
-        arguments_hash_list[key] << right_films
+        arguments_hash_list[key] << filter(stats_arguments)
       end
     end
-    #stats_arguments.reduce(@collection) { |filtered, (key, value)| filtered.select { |m| m.send(key).include?(value) } }
-    #puts arguments_hash_list.reduce(@collection) { |filter, (key,value)| filter.select { } }
-    #  if stats_arguments.values.include?(key)
-    #    arguments_hash_list[key] << right_films
-    #  end
-    #end
     arguments_hash_list
   end
 end
