@@ -1,3 +1,6 @@
+require 'csv'
+require_relative 'movie'
+require_relative 'movie_collection'
 class Movie_colletion
   def initialize(text_file)
     @collection = parse_txt_file(text_file)
@@ -25,19 +28,29 @@ class Movie_colletion
   def filter(filters)
     filters.reduce(@collection) { |filtered, (key, value)| filtered.select { |m| m.send(key).include?(value)}  }
   end
-
-  def stats(stats_arguments)
-    argument_stats_collection = stats_arguments.keys
-                                               .map { |stats_key| @collection.map { |movie| movie.send(stats_key)  } }
-                                               .flatten
-                                               .sort
-                                               .uniq
-    arguments_hash_list = Hash[argument_stats_collection.collect { |item| [item, []] }]
-    arguments_hash_list.keys.map do |key|
-      if stats_arguments.values.include?(key)
-        arguments_hash_list[key] << filter(stats_arguments)
+    def stats(stats_arguments)
+      righ_list_of_keys = stats_arguments.values.concat(['all'])
+      arguments_hash_list = Hash[righ_list_of_keys.collect { |item| [item, []] }]
+      first_argument_value = arguments_hash_list.keys[0]
+      second_argument_value = arguments_hash_list.keys[1]
+      first_argument_key = stats_arguments.keys[0]
+      second_argument_key = stats_arguments.keys[1]
+      first_argument_film_list = @collection.select { |z| z.send(first_argument_key).include?(first_argument_value) }
+      second_argument_film_list= @collection.select { |z| z.send(second_argument_key).include?(second_argument_value) }
+      arguments_hash_list.keys.map do |key|
+        if first_argument_value.include?(key)
+          arguments_hash_list[key] << first_argument_film_list.length
+        elsif second_argument_value.include?(key)
+          arguments_hash_list[key] << second_argument_film_list.length
+        else
+        arguments_hash_list[key] << first_argument_film_list.length + second_argument_film_list.length
+        end
       end
+      puts arguments_hash_list.keys.map { |e| @collection.select { |z| z.send(e).include?}  }
+      arguments_hash_list
     end
-    arguments_hash_list
-  end
 end
+
+x = Movie_colletion.new('movies.txt')
+
+puts x.stats(genre: 'Comedy', actors: 'Brad Pitt')
