@@ -3,7 +3,7 @@ class Movie
   def initialize(movie_array)
     @link = movie_array[0]
     @name = movie_array[1]
-    @year = movie_array[2]
+    @year = movie_array[2].split(',')
     @country = movie_array[3].split(',')
     @release = movie_array[4]
     @genre = movie_array[5].split(',')

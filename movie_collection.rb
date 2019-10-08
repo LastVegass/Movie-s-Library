@@ -28,25 +28,11 @@ class Movie_colletion
   def filter(filters)
     filters.reduce(@collection) { |filtered, (key, value)| filtered.select { |m| m.send(key).include?(value)}  }
   end
+
     def stats(stats_arguments)
-      righ_list_of_keys = stats_arguments.values.concat(['all'])
-      arguments_hash_list = Hash[righ_list_of_keys.collect { |item| [item, []] }]
-      first_argument_value = arguments_hash_list.keys[0]
-      second_argument_value = arguments_hash_list.keys[1]
-      first_argument_key = stats_arguments.keys[0]
-      second_argument_key = stats_arguments.keys[1]
-      first_argument_film_list = @collection.select { |z| z.send(first_argument_key).include?(first_argument_value) }
-      second_argument_film_list= @collection.select { |z| z.send(second_argument_key).include?(second_argument_value) }
-      arguments_hash_list.keys.map do |key|
-        if first_argument_value.include?(key)
-          arguments_hash_list[key] << first_argument_film_list.length
-        elsif second_argument_value.include?(key)
-          arguments_hash_list[key] << second_argument_film_list.length
-        else
-        arguments_hash_list[key] << first_argument_film_list.length + second_argument_film_list.length
-        end
-      end
-      puts arguments_hash_list.keys.map { |e| @collection.select { |z| z.send(e).include?}  }
+      arguments_hash_list = Hash[stats_arguments.values.collect { |item| [item, nil] }]
+      stats_arguments.map { |key, value| arguments_hash_list[value] = @collection.select { |movie| movie.send(key).include?(value)}.length }
+      arguments_hash_list["all"] = arguments_hash_list.values.inject { |sum, n| sum + n }
       arguments_hash_list
     end
 end
