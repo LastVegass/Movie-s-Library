@@ -1,7 +1,7 @@
 require 'csv'
 require_relative 'movie'
-require_relative 'movie_collection'
-class Movie_colletion
+
+class MovieColletion
   def initialize(text_file)
     @collection = parse_txt_file(text_file)
   end
@@ -37,6 +37,6 @@ class Movie_colletion
     end
 end
 
-x = Movie_colletion.new('movies.txt')
+x = MovieColletion.new('movies.txt')
 
 puts x.stats(genre: 'Comedy', actors: 'Brad Pitt')
