@@ -29,12 +29,12 @@ class MovieColletion
     filters.reduce(@collection) { |filtered, (key, value)| filtered.select { |m| m.send(key).include?(value)}  }
   end
 
-    def stats(stats_arguments)
-      arguments_hash_list = Hash[stats_arguments.values.collect { |item| [item, nil] }]
-      stats_arguments.map { |key, value| arguments_hash_list[value] = @collection.select { |movie| movie.send(key).include?(value)}.length }
-      arguments_hash_list["all"] = arguments_hash_list.values.inject { |sum, n| sum + n }
-      arguments_hash_list
-    end
+  def stats(stats_arguments)
+    arguments_hash_list = Hash[stats_arguments.values.collect { |item| [item, nil] }]
+    stats_arguments.map { |key, value| arguments_hash_list[value] = @collection.select { |movie| movie.send(key).include?(value)}.length }
+    arguments_hash_list['all'] = arguments_hash_list.values.inject { |sum, n| sum + n }
+    arguments_hash_list
+  end
 end
 
 x = MovieColletion.new('movies.txt')

@@ -115,6 +115,4 @@ def year_list(years)
   Hash[list.collect { |item| [item, []] }]
 end
 
-x = Movie_colletion.new('movies.txt')
-
-puts x.stats(genre: 'Comedy', actors: 'Brad Pitt')
+x = MovieColletion.new('movies.txt')
